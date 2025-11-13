@@ -28,6 +28,16 @@ export default function LNB({ onToggle }: LNBProps) {
       {/* 메뉴 */}
       <div className="flex-1 py-4">
         <Link
+          to="/leads"
+          className={`block px-6 py-3 text-sm font-medium transition-colors ${
+            location.pathname.startsWith('/leads')
+              ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700'
+              : 'text-gray-700 hover:bg-gray-50'
+          }`}
+        >
+          구매 상담
+        </Link>
+        <Link
           to="/orders"
           className={`block px-6 py-3 text-sm font-medium transition-colors ${
             location.pathname.startsWith('/orders')
@@ -38,14 +48,14 @@ export default function LNB({ onToggle }: LNBProps) {
           주문
         </Link>
         <Link
-          to="/leads"
+          to="/document-reviews"
           className={`block px-6 py-3 text-sm font-medium transition-colors ${
-            location.pathname.startsWith('/leads')
+            location.pathname.startsWith('/document-reviews')
               ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700'
               : 'text-gray-700 hover:bg-gray-50'
           }`}
         >
-          구매 상담
+          서류 검수
         </Link>
       </div>
     </nav>

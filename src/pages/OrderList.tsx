@@ -61,7 +61,7 @@ export default function OrderList() {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">주문 관리</h1>
+      <h1 className="text-2xl font-bold text-gray-900 mb-6 pl-12">주문 관리</h1>
       
       {/* 검색 및 필터 섹션 */}
       <div className="bg-white rounded-lg shadow p-4 mb-4">

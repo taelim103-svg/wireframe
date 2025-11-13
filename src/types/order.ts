@@ -49,6 +49,29 @@ export interface History {
 
 export type Team = '서류검수' | '운영관리' | 'md' | 'scm' | 'cx'
 
+// 서류 검수 관련 타입
+export type ReviewStatus = '대기' | '진행중' | '보완 요청' | '보완 확인필요' | '완료' | '취소' | '이슈'
+export type CardMerchantType = '신규' | '기가맹'
+export type BusinessOwnerType = '개인-단독대표' | '개인-공동대표' | '법인-단독대표' | '법인-공동대표'
+
+export interface DocumentReview {
+  id: string
+  reviewStatus: ReviewStatus // 검수 상태
+  subscriptionTaskCount: number // 청약 업무수 (0 또는 1)
+  iPartnersCreated: boolean // i-partners 생성 여부
+  registeredAt: string // 등록일시 (2025-11-13 9:21 AM 형식)
+  lastModifiedAt: string // 최근 변경일시
+  orderNumber: string // 주문번호
+  companyName: string // 상호명
+  businessNumber: string // 사업자번호
+  allSignDocumentTitle: string // 모두싸인 문서제목 (장비 이름_주문번호)
+  reviewer: string // 서류 검수자
+  preShipping: boolean // 선출고 여부
+  reviewCompletedAt?: string // 검수완료일시
+  cardMerchantType: CardMerchantType // 카드사 가맹유형
+  businessOwnerType: BusinessOwnerType // 사업자 유형
+}
+
 // 구매 상담 관련 타입
 export type LeadStatus = '리드 인입' | '상담 시도' | '상담중' | '구매' | '실패'
 export type BusinessType = '음식점' | '카페' | '편의점' | '마트' | '기타'

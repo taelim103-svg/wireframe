@@ -92,7 +92,7 @@ export default function OrderDetail() {
 
   return (
     <div className="p-2">
-      <div className="mb-2">
+      <div className="mb-2 pl-12">
         <button
           onClick={() => navigate('/orders')}
           className="text-blue-600 hover:text-blue-800 mb-1 text-sm"

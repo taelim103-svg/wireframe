@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { mockLeads } from '../data/leadsData'
-import { Lead, LeadStatus } from '../types/order'
+import { Lead, LeadStatus, Media, BusinessType } from '../types/order'
 
 const STATUSES: LeadStatus[] = ['리드 인입', '상담 시도', '상담중', '구매', '실패']
 
@@ -24,6 +24,54 @@ export default function LeadConsultation() {
   const [leads, setLeads] = useState<Lead[]>(mockLeads)
   const [draggedLead, setDraggedLead] = useState<Lead | null>(null)
   const [dragOverStatus, setDragOverStatus] = useState<LeadStatus | null>(null)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [leadStatus, setLeadStatus] = useState<LeadStatus | 'all'>('all')
+  const [media, setMedia] = useState<Media | 'all'>('all')
+  const [businessType, setBusinessType] = useState<BusinessType | 'all'>('all')
+  const [dateRange, setDateRange] = useState({ start: '', end: '' })
+
+  const filteredLeads = useMemo(() => {
+    return leads.filter((lead) => {
+      // 검색어 필터
+      if (searchTerm) {
+        const searchLower = searchTerm.toLowerCase()
+        const matchesSearch =
+          lead.storeName.toLowerCase().includes(searchLower) ||
+          lead.phoneNumber.toLowerCase().includes(searchLower)
+        if (!matchesSearch) return false
+      }
+
+      // 리드 상태 필터
+      if (leadStatus !== 'all' && lead.status !== leadStatus) {
+        return false
+      }
+
+      // 매체 필터
+      if (media !== 'all' && lead.media !== media) {
+        return false
+      }
+
+      // 업종 필터
+      if (businessType !== 'all' && lead.businessType !== businessType) {
+        return false
+      }
+
+      // 날짜 범위 필터
+      if (dateRange.start || dateRange.end) {
+        const leadDate = new Date(lead.createdAt.split(' ')[0])
+        if (dateRange.start) {
+          const startDate = new Date(dateRange.start)
+          if (leadDate < startDate) return false
+        }
+        if (dateRange.end) {
+          const endDate = new Date(dateRange.end)
+          if (leadDate > endDate) return false
+        }
+      }
+
+      return true
+    })
+  }, [leads, searchTerm, leadStatus, media, businessType, dateRange])
 
   const handleDragStart = (e: React.DragEvent, lead: Lead) => {
     setDraggedLead(lead)
@@ -61,12 +109,101 @@ export default function LeadConsultation() {
   }
 
   const getLeadsByStatus = (status: LeadStatus) => {
-    return leads.filter(lead => lead.status === status)
+    return filteredLeads.filter(lead => lead.status === status)
   }
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">구매 상담</h1>
+      <h1 className="text-2xl font-bold text-gray-900 mb-6 pl-12">구매 상담</h1>
+      
+      {/* 검색 및 필터 섹션 */}
+      <div className="bg-white rounded-lg shadow p-4 mb-4">
+        {/* 검색 바 */}
+        <div className="flex items-center gap-4 mb-4">
+          <div className="flex-1 relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <input
+              type="text"
+              placeholder="가맹점 이름, 전화번호로 검색"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            />
+          </div>
+          <div className="text-sm text-gray-600 font-medium">
+            총 {filteredLeads.length}개
+          </div>
+        </div>
+
+        {/* 필터 드롭다운들 */}
+        <div className="flex items-center gap-4 flex-wrap">
+          {/* 등록일자 기간 */}
+          <div className="flex items-center gap-2">
+            <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <input
+              type="date"
+              value={dateRange.start}
+              onChange={(e) => setDateRange({ ...dateRange, start: e.target.value })}
+              className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+            />
+            <span className="text-gray-500">~</span>
+            <input
+              type="date"
+              value={dateRange.end}
+              onChange={(e) => setDateRange({ ...dateRange, end: e.target.value })}
+              className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+
+          {/* 리드 상태 */}
+          <select
+            value={leadStatus}
+            onChange={(e) => setLeadStatus(e.target.value as LeadStatus | 'all')}
+            className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+          >
+            <option value="all">리드 상태</option>
+            <option value="리드 인입">리드 인입</option>
+            <option value="상담 시도">상담 시도</option>
+            <option value="상담중">상담중</option>
+            <option value="구매">구매</option>
+            <option value="실패">실패</option>
+          </select>
+
+          {/* 매체 */}
+          <select
+            value={media}
+            onChange={(e) => setMedia(e.target.value as Media | 'all')}
+            className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+          >
+            <option value="all">매체</option>
+            <option value="네이버">네이버</option>
+            <option value="구글">구글</option>
+            <option value="인스타그램">인스타그램</option>
+            <option value="페이스북">페이스북</option>
+            <option value="기타">기타</option>
+          </select>
+
+          {/* 업종 */}
+          <select
+            value={businessType}
+            onChange={(e) => setBusinessType(e.target.value as BusinessType | 'all')}
+            className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+          >
+            <option value="all">업종</option>
+            <option value="음식점">음식점</option>
+            <option value="카페">카페</option>
+            <option value="편의점">편의점</option>
+            <option value="마트">마트</option>
+            <option value="기타">기타</option>
+          </select>
+        </div>
+      </div>
       
       <div className="flex gap-4 overflow-x-auto pb-4">
         {STATUSES.map((status) => {
@@ -99,7 +236,7 @@ export default function LeadConsultation() {
               >
                 {leadsInStatus.length === 0 ? (
                   <div className="text-center text-gray-400 text-sm py-8">
-                    리드가 없습니다
+                    {filteredLeads.length === 0 ? '검색 결과가 없습니다' : '이 상태의 리드가 없습니다'}
                   </div>
                 ) : (
                   leadsInStatus.map((lead) => {
