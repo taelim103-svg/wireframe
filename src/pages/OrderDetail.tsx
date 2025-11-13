@@ -243,8 +243,8 @@ export default function OrderDetail() {
           </div>
         </div>
 
-        {/* 우측: 히스토리 패널 */}
-        <div className="w-80 flex-shrink-0">
+        {/* 우측: 히스토리 패널 (전체 화면의 30%) */}
+        <div className="w-[30%] flex-shrink-0">
           <HistoryPanel
             orderId={order.id}
             histories={histories}
