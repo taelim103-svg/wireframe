@@ -1,4 +1,4 @@
-import { Lead, LeadStatus, BusinessType, Media, SpecialNote, FailureReason } from '../types/order'
+import { Lead, BusinessType, Media } from '../types/order'
 
 // 가맹점 이름 목록
 const storeNames = [
@@ -44,7 +44,7 @@ function generateCreatedAt(index: number): string {
 }
 
 // 마지막 상담일시 생성 (리드 인입 이후 시간)
-function generateLastConsultationAt(createdAt: string, index: number): string {
+function generateLastConsultationAt(createdAt: string): string {
   const baseDate = new Date(createdAt)
   // 리드 인입 이후 1~3일 후
   baseDate.setDate(baseDate.getDate() + Math.floor(Math.random() * 3) + 1)
@@ -89,7 +89,7 @@ export const mockLeads: Lead[] = [
     absentCount: 1,
     status: '상담 시도',
     createdAt: lead2CreatedAt,
-    lastConsultationAt: generateLastConsultationAt(lead2CreatedAt, 1),
+    lastConsultationAt: generateLastConsultationAt(lead2CreatedAt),
     assignedTo: assignedToNames[1],
     isDuplicate: true,
     isPurchased: false,
@@ -105,7 +105,7 @@ export const mockLeads: Lead[] = [
     absentCount: 0,
     status: '상담중',
     createdAt: lead3CreatedAt,
-    lastConsultationAt: generateLastConsultationAt(lead3CreatedAt, 2),
+    lastConsultationAt: generateLastConsultationAt(lead3CreatedAt),
     assignedTo: assignedToNames[2],
     isDuplicate: false,
     isPurchased: false,
@@ -121,7 +121,7 @@ export const mockLeads: Lead[] = [
     absentCount: 2,
     status: '구매',
     createdAt: lead4CreatedAt,
-    lastConsultationAt: generateLastConsultationAt(lead4CreatedAt, 3),
+    lastConsultationAt: generateLastConsultationAt(lead4CreatedAt),
     assignedTo: assignedToNames[3],
     isDuplicate: false,
     isPurchased: true,
@@ -137,7 +137,7 @@ export const mockLeads: Lead[] = [
     absentCount: 3,
     status: '실패',
     createdAt: lead5CreatedAt,
-    lastConsultationAt: generateLastConsultationAt(lead5CreatedAt, 4),
+    lastConsultationAt: generateLastConsultationAt(lead5CreatedAt),
     assignedTo: assignedToNames[4],
     isDuplicate: true,
     isPurchased: false,
