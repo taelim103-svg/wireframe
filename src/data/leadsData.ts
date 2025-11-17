@@ -1,4 +1,4 @@
-import { Lead, BusinessType, Media, LeadType } from '../types/order'
+import { Lead, BusinessType, Media } from '../types/order'
 
 // 가맹점 이름 목록
 const storeNames = [
