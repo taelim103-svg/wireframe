@@ -74,6 +74,7 @@ export interface DocumentReview {
 
 // 구매 상담 관련 타입
 export type LeadStatus = '리드 인입' | '상담 시도' | '상담중' | '구매' | '실패'
+export type LeadType = '온라인' | '오프라인'
 export type BusinessType = '음식점' | '카페' | '편의점' | '마트' | '기타'
 export type Media = '네이버' | '구글' | '인스타그램' | '페이스북' | '기타'
 export type SpecialNote = '-' | '재통화 요청' | '팔로업 필요'
@@ -85,6 +86,7 @@ export interface Lead {
   phoneNumber: string // 전화번호
   businessType: BusinessType // 업종
   media: Media // 매체
+  leadType: LeadType // 리드 유형 (온라인/오프라인)
   absentCount: number // n차 부재
   status: LeadStatus // 상태
   createdAt: string // 리드 인입 일시

@@ -1,4 +1,4 @@
-import { Lead, BusinessType, Media } from '../types/order'
+import { Lead, BusinessType, Media, LeadType } from '../types/order'
 
 // 가맹점 이름 목록
 const storeNames = [
@@ -70,6 +70,7 @@ export const mockLeads: Lead[] = [
     phoneNumber: generatePhoneNumber(),
     businessType: businessTypes[0],
     media: mediaList[0],
+    leadType: '온라인',
     absentCount: 0,
     status: '리드 인입',
     createdAt: lead1CreatedAt,
@@ -86,6 +87,7 @@ export const mockLeads: Lead[] = [
     phoneNumber: generatePhoneNumber(),
     businessType: businessTypes[1],
     media: mediaList[1],
+    leadType: '온라인',
     absentCount: 1,
     status: '상담 시도',
     createdAt: lead2CreatedAt,
@@ -102,6 +104,7 @@ export const mockLeads: Lead[] = [
     phoneNumber: generatePhoneNumber(),
     businessType: businessTypes[2],
     media: mediaList[2],
+    leadType: '온라인',
     absentCount: 0,
     status: '상담중',
     createdAt: lead3CreatedAt,
@@ -118,6 +121,7 @@ export const mockLeads: Lead[] = [
     phoneNumber: generatePhoneNumber(),
     businessType: businessTypes[3],
     media: mediaList[3],
+    leadType: '온라인',
     absentCount: 2,
     status: '구매',
     createdAt: lead4CreatedAt,
@@ -134,6 +138,7 @@ export const mockLeads: Lead[] = [
     phoneNumber: generatePhoneNumber(),
     businessType: businessTypes[4],
     media: mediaList[4],
+    leadType: '온라인',
     absentCount: 3,
     status: '실패',
     createdAt: lead5CreatedAt,
@@ -143,6 +148,41 @@ export const mockLeads: Lead[] = [
     isPurchased: false,
     specialNote: '-',
     failureReason: '부적격-컨택후'
+  },
+  // 오프라인 리드 추가
+  {
+    id: '6',
+    storeName: '오프라인 카페',
+    phoneNumber: generatePhoneNumber(),
+    businessType: businessTypes[1],
+    media: mediaList[0],
+    leadType: '오프라인',
+    absentCount: 0,
+    status: '리드 인입',
+    createdAt: generateCreatedAt(5),
+    lastConsultationAt: undefined,
+    assignedTo: assignedToNames[0],
+    isDuplicate: false,
+    isPurchased: false,
+    specialNote: '-',
+    failureReason: undefined
+  },
+  {
+    id: '7',
+    storeName: '오프라인 식당',
+    phoneNumber: generatePhoneNumber(),
+    businessType: businessTypes[0],
+    media: mediaList[2],
+    leadType: '오프라인',
+    absentCount: 1,
+    status: '상담 시도',
+    createdAt: generateCreatedAt(6),
+    lastConsultationAt: generateLastConsultationAt(generateCreatedAt(6)),
+    assignedTo: assignedToNames[1],
+    isDuplicate: false,
+    isPurchased: false,
+    specialNote: '재통화 요청',
+    failureReason: undefined
   }
 ]
 

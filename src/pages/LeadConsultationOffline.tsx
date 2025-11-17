@@ -2,8 +2,6 @@ import { useState, useMemo } from 'react'
 import { mockLeads } from '../data/leadsData'
 import { Lead, LeadStatus, Media, BusinessType } from '../types/order'
 
-// LeadConsultation은 이제 온라인 전용
-
 const STATUSES: LeadStatus[] = ['리드 인입', '상담 시도', '상담중', '구매', '실패']
 
 const STATUS_COLORS: Record<LeadStatus, string> = {
@@ -22,10 +20,10 @@ const STATUS_HEADER_COLORS: Record<LeadStatus, string> = {
   '실패': 'bg-red-100'
 }
 
-export default function LeadConsultation() {
-  // 온라인 리드만 필터링
-  const onlineLeads = useMemo(() => mockLeads.filter(lead => lead.leadType === '온라인'), [])
-  const [leads, setLeads] = useState<Lead[]>(onlineLeads)
+export default function LeadConsultationOffline() {
+  // 오프라인 리드만 필터링
+  const offlineLeads = useMemo(() => mockLeads.filter(lead => lead.leadType === '오프라인'), [])
+  const [leads, setLeads] = useState<Lead[]>(offlineLeads)
   const [draggedLead, setDraggedLead] = useState<Lead | null>(null)
   const [dragOverStatus, setDragOverStatus] = useState<LeadStatus | null>(null)
   const [searchTerm, setSearchTerm] = useState('')
@@ -118,7 +116,7 @@ export default function LeadConsultation() {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6 pl-12">구매 상담 - 온라인</h1>
+      <h1 className="text-2xl font-bold text-gray-900 mb-6 pl-12">구매 상담 - 오프라인</h1>
       
       {/* 검색 및 필터 섹션 */}
       <div className="bg-white rounded-lg shadow p-4 mb-4">

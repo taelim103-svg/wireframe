@@ -3,6 +3,7 @@ import Layout from './components/Layout'
 import OrderList from './pages/OrderList'
 import OrderDetail from './pages/OrderDetail'
 import LeadConsultation from './pages/LeadConsultation'
+import LeadConsultationOffline from './pages/LeadConsultationOffline'
 import DocumentReviewList from './pages/DocumentReviewList'
 import DocumentReviewDetail from './pages/DocumentReviewDetail'
 
@@ -15,6 +16,8 @@ function App() {
           <Route path="/orders" element={<OrderList />} />
           <Route path="/orders/:id" element={<OrderDetail />} />
           <Route path="/leads" element={<LeadConsultation />} />
+          <Route path="/leads/online" element={<LeadConsultation />} />
+          <Route path="/leads/offline" element={<LeadConsultationOffline />} />
           <Route path="/document-reviews" element={<DocumentReviewList />} />
           <Route path="/document-reviews/:id" element={<DocumentReviewDetail />} />
         </Routes>
